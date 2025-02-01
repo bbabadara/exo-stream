@@ -16,6 +16,9 @@ import java.util.ArrayList;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
+    public static int calculerAge(LocalDate dateNaissance) {
+        return Period.between(dateNaissance, LocalDate.now()).getYears();
+    }
     public static void main(String[] args) {
 
         List<Personne> personnes= List.of(
@@ -29,14 +32,14 @@ public class Main {
         );
 //        System.out.println(personnes);
         // personnes majeures
-        List<Personne> majeurs = personnes.stream().filter(personne -> Period.between(personne.dateNaissance(),LocalDate.now()).getYears()>=18).toList();
+        List<Personne> majeurs = personnes.stream().filter(personne -> calculerAge(personne.dateNaissance())>=18).toList();
 
         //personnes retraitees
-        List<Personne> retraites = personnes.stream().filter(personne -> Period.between(personne.dateNaissance(),LocalDate.now()).getYears()>60).toList();
+        List<Personne> retraites = personnes.stream().filter(personne -> calculerAge(personne.dateNaissance())>60).toList();
 
        //filtre age ascendant
         List<Personne> ageAsc = personnes.stream()
-                .sorted((p1, p2) ->  Period.between(p1.dateNaissance(),LocalDate.now()).getYears() -  Period.between(p2.dateNaissance(),LocalDate.now()).getYears())
+                .sorted((p1, p2) ->  calculerAge(p1.dateNaissance()) - calculerAge(p2.dateNaissance()))
                 .toList();
 
         // filtre par odre alphabetique
@@ -112,7 +115,14 @@ public class Main {
         //• Nés durant les années 1980 (entre 1980 et 1989 inclus).
         List<Personne> entre80 = personnes.stream().filter(personne -> personne.dateNaissance().getYear()>=1980 && personne.dateNaissance().getYear()<=1989 ).toList();
 
-        System.out.println(entre80);
+        System.out.println("Personnes majeures : " + majeurs);
+        System.out.println("Personnes retraitées : " + retraites);
+        System.out.println("Âge moyen : " + ageMoyen);
+        System.out.println("Employé le plus âgé : " + plusAge.orElse(null));
+        System.out.println("Employé le plus jeune : " + plusjeune.orElse(null));
+        System.out.println("Personnes nées avant 1990 : " + avant1990);
+        System.out.println("Personnes nées après 2000 : " + apres2000);
+        System.out.println("Personnes nées dans les années 1980 : " + entre80);
 
 
 
